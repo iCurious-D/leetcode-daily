@@ -197,5 +197,7 @@ class Solution:
 if __name__ == '__main__':
     print(Solution().minJumps([100, -23, -23, 404, 100, 23, 23, 23, 3, 404]))
     print(Solution().minJumps([7, 6, 9, 6, 9, 6, 9, 7]))
-    print(Solution().minJumps([6, 1, 9]))
-
+    print(
+        Solution().minJumps([11, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+                             16, 16, 16, 16, 16, 16, 16, 16,
+                             ]))

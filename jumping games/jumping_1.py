@@ -17,10 +17,9 @@ from typing import List
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        """
-        动态规划
-        """
         pass
+
+
 
 
 if __name__ == '__main__':

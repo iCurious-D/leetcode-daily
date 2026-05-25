@@ -133,12 +133,7 @@ import collections
 
 class Solution:
     def canReach(self, arr: List[int], start: int) -> bool:
-        """
-        BFS
-        :param arr:
-        :param start:
-        :return:
-        """
+        """    BFS    """
         if arr[start] == 0:
             return True
         n = len(arr)
@@ -153,7 +148,6 @@ class Solution:
                     seen.add(j)
                     queue.append(j)
         return False
-
 
 
 if __name__ == '__main__':

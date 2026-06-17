@@ -64,35 +64,65 @@ class Solution:
     def processStr(self, s: str, k: int) -> str:
         n = len(s)
 
-        size = [0] * n
-        for i, c in enumerate(s):
-            if c.isalpha():
-                size[i] = (size[i - 1] if i > 0 else 0) + 1
-            elif c == '*':
-                size[i] = max(0, (size[i - 1] if i > 0 else 0) - 1)
+        sz = 0
+        for c in s:
+            if c == '*':
+                sz = max(sz - 1, 0)
             elif c == '#':
-                size[i] = (size[i - 1] if i > 0 else 0) * 2
-            else:
-                size[i] = size[i - 1] if i > 0 else 0
+                sz *= 2
+            elif c != '%':
+                sz += 1
 
-        if k >= size[-1]:
+        if k >= sz:
             return '.'
 
-        for i in range(n - 1, -1, -1):
-            c = s[i]
-            if c.isalpha():
-                if k == size[i]-1:
-                    return c
-            elif c == '*':
-                continue
+        for c in reversed(s):
+            if c == '*':
+                sz += 1
             elif c == '#':
-                m = size[i] // 2
-                if k >= m:
-                    k -= m
+                sz //= 2
+                if k >= sz:
+                    k -= sz
+            elif c == '%':
+                k = sz - 1 - k
             else:
-                k = size[i] - 1 - k
+                sz -= 1
+                if k == sz:
+                    return c
 
         return '.'
+
+        # n = len(s)
+        #
+        # size = [0] * n
+        # for i, c in enumerate(s):
+        #     if c.isalpha():
+        #         size[i] = (size[i - 1] if i > 0 else 0) + 1
+        #     elif c == '*':
+        #         size[i] = max(0, (size[i - 1] if i > 0 else 0) - 1)
+        #     elif c == '#':
+        #         size[i] = (size[i - 1] if i > 0 else 0) * 2
+        #     else:
+        #         size[i] = size[i - 1] if i > 0 else 0
+        #
+        # if k >= size[-1]:
+        #     return '.'
+        #
+        # for i in range(n - 1, -1, -1):
+        #     c = s[i]
+        #     if c.isalpha():
+        #         if k == size[i]-1:
+        #             return c
+        #     elif c == '*':
+        #         continue
+        #     elif c == '#':
+        #         m = size[i] // 2
+        #         if k >= m:
+        #             k -= m
+        #     else:
+        #         k = size[i] - 1 - k
+        #
+        # return '.'
 
 
 if __name__ == '__main__':

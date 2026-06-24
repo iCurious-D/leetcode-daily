@@ -1,4 +1,4 @@
-""" 3699. 锯齿形数组的总数 I    困难
+""" 3700. 锯齿形数组的总数 II   困难
 给你三个整数 n、l 和 r。
 长度为 n 的锯齿形数组定义如下：
     每个元素的取值范围为 [l, r]。
@@ -20,42 +20,47 @@
 所有数组均符合锯齿形条件。
 
 提示：
-3 <= n <= 2000
-1 <= l < r <= 2000
+3 <= n <= 10^9
+1 <= l < r <= 75
 =========================================================================================
 
-题解路径：. / leetcode_daily_stories / 26-06-23.md
+题解路径：. / leetcode_daily_stories / 26-06-24.md
 
 """
+from typing import List
+
+
+MOD = 10 ** 9 + 7
+
+def mul(a: List[List[int]], b: List[List[int]]) -> List[List[int]]:
+    return [[sum(x*y for x, y in zip(row, col)) % MOD for col in zip(*b)]
+            for row in a]
+
+def pow_mul(a: List[List[int]], n: int, f1: List[List[int]]) -> List[List[int]]:
+    res = f1
+    while n:
+        if n&1:
+            res = mul(a, res)
+        a = mul(a, a)
+        n >>= 1
+    return res
+
 class Solution:
     def zigZagArrays(self, n: int, l: int, r: int) -> int:
-        MOD = 10 ** 9 + 7
-        k = r - l + 1
-
-        f0 = [1] * k  # 后两个数递增
-        f1 = [1] * k  # 后两个数递减
-
-        # for _ in range(n - 1):
-        #     new_f0 = [0] * k
-        #     new_f1 = [0] * k
-        #     for j in range(k):  # 枚举当前元素的值
-        #         for p in range(j):  # 枚举前一个元素的值（p < j，递增）
-        #             new_f0[j] += f1[p]  # 从递减状态转移过来
-        #         for p in range(j + 1, k):  # 枚举前一个元素的值（p > j，递减）
-        #             new_f1[j] += f0[p]  # 从递增状态转移过来
-        #     f0, f1 = new_f0, new_f1
-
-        for _ in range(n - 1):
-            s0 = list(accumulate(f0, initial=0))
-            s1 = list(accumulate(f1, initial=0))
-            for j in range(k):
-                f0[j] = s1[j] % MOD
-                f1[j] = (s0[k] - s0[j + 1]) % MOD
-
-        return (sum(f0) + sum(f1)) % MOD
+        k = r-l+1
+        m = [[0] * (k*2) for _ in range(k*2)]
+        for i in range(k):
+            for j in range(i):
+                m[i][k+j] = 1
+            for j in range(i+1, k):
+                m[k+i][j] = 1
+        f1 = [[1] for _ in range(k*2)]
+        fn = pow_mul(m, n-1, f1)
+        return sum(row[0] for row in fn) % MOD
 
 
 if __name__ == '__main__':
     print(Solution().zigZagArrays(n=3, l=4, r=5))
     print(Solution().zigZagArrays(n=3, l=1, r=3))
     print(Solution().zigZagArrays(n=4, l=1, r=3))
+

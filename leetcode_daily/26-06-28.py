@@ -22,7 +22,7 @@
 1 <= arr[i] <= 10^9
 =========================================================================================
 
-题解路径：. / leetcode_daily_stories / 26-06-27.md
+题解路径：. / leetcode_daily_stories / 26-06-28.md
 
 """
 from typing import List

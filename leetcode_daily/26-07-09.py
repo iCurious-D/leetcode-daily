@@ -29,7 +29,7 @@ queries[i] == [ui, vi]
 0 <= ui, vi < n
 =========================================================================================
 
-题解路径：. / leetcode_daily_stories / 26-07-08.md
+题解路径：. / leetcode_daily_stories / 26-07-09.md
 
 """
 from typing import List

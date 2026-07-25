@@ -19,7 +19,7 @@ XOR 三元组 定义为三个元素的异或值 nums[i] XOR nums[j] XOR nums[k]�
 1 <= nums[i] <= 1500
 =========================================================================================
 
-题解路径：. / leetcode_daily_stories / 26-07-23.md
+题解路径：. / leetcode_daily_stories / 26-07-24.md
 
 """
 from itertools import combinations

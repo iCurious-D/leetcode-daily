@@ -25,7 +25,7 @@ s 由小写英文字母组成。
 1 <= k <= 10^6
 =========================================================================================
 
-题解路径：. / leetcode_daily_stories / 26-07-28.md
+题解路径：. / leetcode_daily_stories / 26-07-29.md
 
 """
 from collections import Counter

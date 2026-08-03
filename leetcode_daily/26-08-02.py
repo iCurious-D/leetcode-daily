@@ -29,3 +29,8 @@ def stoneGame(piles: List[int]) -> bool:
     return True
 
 
+if __name__ == '__main__':
+    print(stoneGame([5, 3, 4, 5]))
+    print(stoneGame([3, 7, 2, 3]))
+    print(stoneGame([3, 7, 2, 3, 1]))
+

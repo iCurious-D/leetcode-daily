@@ -20,6 +20,9 @@ invocations[i] == [ai, bi]
 0 <= ai, bi <= n - 1
 ai != bi
 invocations[i] != invocations[j]
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-05.md
 
 """
 from typing import List

@@ -22,11 +22,15 @@ num 不包含前导 0 。
 """
 from math import gcd
 from functools import cache
+from typing import List, Optional
+from collections import Counter
 
 
-def smallestNumber(num: str, t: int) -> str:
-    # # 数位只能是1-9，它们的质因子只有 {2, 3, 5, 7}
+def smallestNumber1(num: str, t: int) -> str:
+    # 数位只能是1-9，它们的质因子只有 {2, 3, 5, 7}
+
     # # 解法一：贪心构造
+    #
     # # 1. 枚举t的质因子，如果t包含其它质因子，永远无法满足条件 → 返回 "-1"
     # tmp = t
     # for p in 2, 3, 5, 7:
@@ -52,23 +56,23 @@ def smallestNumber(num: str, t: int) -> str:
     #
     # # 2-2 逐位调整 num，贪心构造
     # # 假设答案和 s 一样长: 从 pos 位置往前枚举要增大的位置：因为要保持数字尽可能小，优先改动低位
-    # num_list = list(map(int, num))
+    # ans = list(map(int, num))
     # for i in range(pos, -1, -1):
     #     # 将第 i 位数字逐步增大（当前值+1 → 9）
-    #     for num_list[i] in range(num_list[i] + 1, 10):
-    #         t_now = left_t[i] // gcd(left_t[i], num_list[i])
+    #     for ans[i] in range(ans[i] + 1, 10):
+    #         t_now = left_t[i] // gcd(left_t[i], ans[i])
     #         # 初始化贪心选择的数字为 9：从最大的数字开始试，因为大数字包含更多质因子k = 9
     #         k = 9
     #         # 从最后一位往前填充 i 后面的所有位置
     #         for j in range(n - 1, i, -1):
     #             while t_now % k:
     #                 k -= 1
-    #             t_now //= k
     #             # 贪心策略：每一位都选当前最优（最大合法）数字
-    #             num_list[j] = k
+    #             ans[j] = k
+    #             t_now //= k
     #         # t_now == 1 说明所有需要的质因子都已凑齐
     #         if t_now == 1:
-    #             return ''.join(map(str, num_list))
+    #             return "".join(map(str, ans))
     #
     # # 无法在原长度内满足，答案一定比 s 长
     # ans = []
@@ -78,6 +82,7 @@ def smallestNumber(num: str, t: int) -> str:
     #         t //= i
     # return ''.join(ans[::-1]).rjust(n + 1, '1')  # 前面补 1
     # # rjust(width, fillchar) 是字符串右对齐方法：如果长度不足 n+1，在左边填充字符 '1'
+
 
     # 解法二：dfs + 记忆化搜索
     cnt = 0  # 记录总共需要多少个质因子
@@ -116,9 +121,104 @@ def smallestNumber(num: str, t: int) -> str:
     return ''.join(ans).lstrip('0')  # 去掉前导零
 
 
+# 极致解法三
+# 数位 1-9 仅有的四个质因子
+a0 = (2, 3, 5, 7)
+# 数位→质因子索引映射。数字 d 的质因子对应 a0 数组中的哪些下标
+q0 = ((), (), [0], [1], (0, 0), [2], (0, 1), [3], (0, 0, 0), (1, 1))
+# 基础数字查找表。用 (a3的奇偶, a2 mod 3) 索引，给出凑齐基础因子所需的最小数字组合
+b0 = (('', '2', '4'), ('3', '6', '26'))
+q1 = ('28', '39', '48')
 
 
+def min_int(a: List[int]) -> str:
+    a2, a3, a5, a7 = (max(0, i) for i in a)
+    b = list(b0[a3 & 1][a2 % 3])
+    b.extend(('5' * a5, '7' * a7, '8' * (a2 // 3), '9' * (a3 // 2)))
+    b.sort()
+    return ''.join(b)
 
 
+def max2(b: str) -> str:
+    if b[0] > '4':
+        return b[::-1]
+    if b.startswith('2') and '6' in b:
+        b = b.replace('6', '9')
+    for t in q1:
+        b = b.replace(*t)
+    return ''.join(sorted(b, reverse=True))
 
+
+def f2(num: str, i: int, a: List[int]) -> Optional[str]:
+    t = num[:i]
+    for k, v in Counter(t).items():
+        for j in q0[int(k)]:
+            a[j] -= v
+    res = f(num[i:], a)
+    return res and t + res
+
+
+def f(num: str, a: List[int]) -> Optional[str]:
+    b = min_int(a)
+    if not b:
+        return num
+    m, n = len(num), len(b)
+    if m < n:
+        return
+    if m == n:
+        if num <= b:
+            return b
+        if num > max2(b):
+            return
+        if n == 1:
+            b = int(b)
+            return str((int(num) - 1) // b * b + b)
+        if res := f2(num, 1, a.copy()):
+            return res
+        t = '1' * (n - 1)
+        for i in range(int(num[0]) + 1, 10):
+            if res := f2(str(i) + t, 1, a.copy()):
+                return res
+    if num[-n:] <= max2(b):
+        return f2(num, -n, a)
+    for i in range(m - n - 1, 0, -1):
+        if num[i] < '9':
+            return f2(num, i, a)
+    return f2(num, -n, a.copy()) or num[0] < '9' and f2(str(int(num[0]) + 1) + '1' * (m - 1), -n, a)
+
+
+def smallestNumber(num: str, t: int) -> str:
+    # 1. 处理0：把第一个0及后面全部替换成1
+    i = num.find('0')
+    if i >= 0:
+        num = num[:i] + '1' * (len(num) - i)
+
+    # 2. t=1特判：所有位都是1就够了
+    if t == 1:
+        return num
+
+    # 3. 质因数分解t
+    a = [0] * 4
+    for i, x in enumerate(a0):
+        while t % x == 0:
+            t //= x
+            a[i] += 1
+    if t != 1:
+        return '-1'  # 含有非{2,3,5,7}的质因子
+
+    # 4. 快速检查
+    b = min_int(a)
+    t = len(num) - len(b)
+    if t < 0 or t == 0 and num <= b:
+        return b
+
+    # 5. 核心搜索
+    return f(num, a) or '1' * (t + 1) + b
+
+
+if __name__ == '__main__':
+    print(smallestNumber("1234", 256))
+    print(smallestNumber("12355", 50))
+    print(smallestNumber("11111", 26))
+    print(smallestNumber("99999", 1))
 

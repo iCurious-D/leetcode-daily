@@ -19,9 +19,9 @@ word1[1] 已经是 'a' 。将 word1[2] 变为 'b' 。word1[4] 已经是 'c' 。
 提示：
 1 <= word2.length < word1.length <= 3 * 10^5
 word1 和 word2 只包含小写英文字母。
+=========================================================================================
 
-
-
+题解路径：. / leetcode_daily_stories / 26-08-08.md
 
 """
 def validSequence(word1: str, word2: str) -> list[int]:

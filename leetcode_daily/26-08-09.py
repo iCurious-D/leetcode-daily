@@ -14,6 +14,10 @@ Alice 和 Bob 轮流进行，Alice 先开始。最初，M = 1。
 提示：
 1 <= piles.length <= 100
 1 <= piles[i] <= 10^4
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-09.md
+
 """
 from collections import deque
 from functools import cache

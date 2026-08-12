@@ -12,6 +12,9 @@
 提示：
 1 <= nums.length <= 50
 1 <= nums[i] <= 50
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-11.md
 
 """
 from itertools import pairwise

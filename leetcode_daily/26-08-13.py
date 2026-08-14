@@ -23,6 +23,9 @@ k == queryCharacters.length == queryIndices.length
 1 <= k <= 10^5
 queryCharacters 由小写英文字母组成
 0 <= queryIndices[i] < s.length
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-13.md
 
 """
 from typing import List

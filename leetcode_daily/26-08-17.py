@@ -18,7 +18,9 @@ Bob 会丢弃值最大的行，Alice 的得分为剩下那行的值（每轮累�
 提示：
 1 <= stoneValue.length <= 500
 1 <= stoneValue[i] <= 10^6
+=========================================================================================
 
+题解路径：. / leetcode_daily_stories / 26-08-17.md
 
 """
 from bisect import bisect_left

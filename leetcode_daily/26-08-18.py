@@ -22,6 +22,9 @@
 1 <= nums.length <= 50
 0 <= nums[i] <= 50
 1 <= k <= nums.length
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-18.md
 
 """
 from collections import Counter

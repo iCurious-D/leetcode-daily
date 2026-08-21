@@ -20,6 +20,9 @@ reservedSeats[i] == [rowi, seati]
 1 <= rowi <= n
 1 <= seati <= 10
 所有 reservedSeats[i] 都是互不相同的。
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-19.md
 
 """
 from collections import defaultdict

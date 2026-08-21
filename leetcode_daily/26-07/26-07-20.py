@@ -54,7 +54,35 @@ def shiftGrid(grid: List[List[int]], k: int) -> List[List[int]]:
     # return arr.tolist()  # 如需返回 list
 
     # 解法二
-    # return
+    # m = len(grid)
+    # n = len(grid[0])
+    # total = m * n
+    # k %= total
+    # if k == 0:
+    #     return grid
+    #
+    # # 假装网格是一个一维数组，用 divmod 定位任意像素
+    # def get(idx):
+    #     return grid[idx // n][idx % n]
+    #
+    # def set_(idx, val):
+    #     grid[idx // n][idx % n] = val
+    #
+    # # 反转 [start, end] 区间的像素
+    # def reverse_range(start, end):
+    #     while start < end:
+    #         tmp = get(start)
+    #         set_(start, get(end))
+    #         set_(end, tmp)
+    #         start += 1
+    #         end -= 1
+    #
+    # # 三次反转，原地完成循环右移
+    # reverse_range(0, total - 1)  # 整个倒过来
+    # reverse_range(0, k - 1)  # 前 k 个再倒回去
+    # reverse_range(k, total - 1)  # 后面再倒回去
+    # return grid
+
 
     # 解法三
     m, n = len(grid), len(grid[0])
@@ -63,13 +91,13 @@ def shiftGrid(grid: List[List[int]], k: int) -> List[List[int]]:
     if k == 0:
         return grid
 
-    def reverse(l: int, r: int) -> None:
-        while l < r:
-            x1, y1 = divmod(l, n)
-            x2, y2 = divmod(r, n)
+    def reverse(start: int, end: int) -> None:
+        while start < end:
+            x1, y1 = divmod(start, n)
+            x2, y2 = divmod(end, n)
             grid[x1][y1], grid[x2][y2] = grid[x2][y2], grid[x1][y1]
-            l += 1
-            r -= 1
+            start += 1
+            end -= 1
 
     # 轮转数组
     reverse(0, size - 1)

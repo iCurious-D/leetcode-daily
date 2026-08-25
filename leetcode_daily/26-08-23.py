@@ -27,10 +27,11 @@ Bob 获胜，因为 9 + 3 + 2 + 9 = 5 + 9 + 2 + 7 。
 2 <= num.length <= 10^5
 num.length 是 偶数 。
 num 只包含数字字符和 '?' 。
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-23.md
 
 """
-
-
 
 def sumGame(num: str) -> bool:
     # def calc(num: str) -> tuple[int, int]:

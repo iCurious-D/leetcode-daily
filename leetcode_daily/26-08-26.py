@@ -43,7 +43,7 @@ def shortestBeautifulSubstring(s: str, k: int) -> str:
     #
     # return result
 
-    # 解法二
+    # 解法二: 滑动窗口
     if s.count('1') < k:
         return ""
 

@@ -25,6 +25,9 @@ Alice 和 Bob 的 分数之差 为 (Alice 的分数 - Bob 的分数) 。 Alice �
 n == stones.length
 2 <= n <= 10^5
 -104 <= stones[i] <= 10^4
+=========================================================================================
+
+题解路径：. / leetcode_daily_stories / 26-08-24.md
 
 """
 from functools import cache

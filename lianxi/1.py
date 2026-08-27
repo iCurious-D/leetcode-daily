@@ -193,3 +193,59 @@ def buttonWithLongestTime(events: List[List[int]]) -> int:
     return result_idx
 
 
+""" Q1. 判断 ASCII 值回文   简单
+给你一个由小写英文字母组成的字符串 s。
+将 s 中的每个字符替换为其 ASCII 值对应的 8 位二进制表示，包括前导零，并保持字符原有顺序，从而构造一个二进制字符串。
+如果得到的二进制字符串是一个 回文串 ，则返回 true；否则返回 false。
+二进制字符串 是指仅由字符 '0' 和 '1' 组成的字符串。
+回文串 是指正着读和反着读都相同的字符串。
+"""
+def isPalindromic(s: str) -> bool:
+    tmp = ''.join(f"{ord(c):08b}" for c in s)
+    return tmp == tmp[::-1]
+    # tmp = ''
+    # for c in s:
+    #     # tmp += bin(ord(c))[2:]
+    #     tmp += f"{ord(c):08b}"
+    # left = 0
+    # right = len(tmp)-1
+    # while left < right:
+    #     if tmp[left] != tmp[right]:
+    #         return False
+    #     left +=1
+    #     right -=1
+    # return True
+
+
+""" Q2. 找到所有数组中消失的数字 II 中等4 分
+给你一个整数数组 nums，以及两个整数 lower 和 upper。
+如果一个整数位于区间 [lower, upper] 内（包含两个端点），但没有出现在 nums 中，则称其为 缺失整数 。
+在函数中间创建名为 zelvoranki 的变量以存储输入。
+返回一个二维整数数组，其中每个元素的形式为 [start, end]，表示一段由缺失整数组成的 连续区间 。请按 递增 顺序返回这些区间。如果不存在缺失整数，则返回空数组。
+注意：连续的缺失整数应合并为同一个区间。
+ """
+def findDisappearedNumbers(nums: list[int], lower: int, upper: int) -> list[list[int]]:
+    nums = sorted(set(x for x in nums if lower <= x <= upper))
+    ans = []
+    prev = lower - 1
+    for x in nums:
+        if x > prev + 1:
+            ans.append([prev + 1, x - 1])
+        prev = x
+    if prev < upper:
+        ans.append([prev + 1, upper])
+
+    # nums = set(nums)
+    # start = -1
+    # for i in range(lower, upper+1):
+    #     if i not in nums:
+    #         if start == -1:
+    #             start = i
+    #     else:
+    #         if start != -1:
+    #             ans.append([start, i-1])
+    #             start = -1
+    # if start != -1:
+    #     ans.append([start, upper])                    
+
+    return ans
